@@ -1,37 +1,64 @@
-#def add_time(start, duration, day = "Monday"):
-start = "3:30 AM"
-duration = "10:00"
+def add_time(start, duration, day = "Monday"):
+
+    numberDay = 0
+
+   
+    startTime = start.split()[0]
+    clockSystem = start.split()[1]
+    startHour = startTime.split(":")[0]
+    startMinut = startTime.split(":")[1]
+    durationHour = duration.split(":")[0]
+    durationMinut = duration.split(":")[1]
+##    print(f"startTime :{startTime}, clockSystem :{clockSystem }, startHour :{startHour},startMinut:{startMinut}")
+##    print(f"durationHour: {durationHour}, durationMinut :{durationMinut}")
+
+    if int(durationHour) >= 24:
+        numberDay =  int(durationHour)  // 24
+        durationHour = int(durationHour)  - (( int(durationHour)  // 24) * 24)
+##        print(durationHour)
+        resultHour = durationHour + int( startHour )
+##        print(resultHour, numberDay, durationHour) 
+
+    resultHour = int(startHour) + int(durationHour)
+    resultMinut = int(startMinut) + int(durationMinut)
+    if  resultMinut >=60:
+      resultHour = resultHour+ (resultMinut // 60)
+      resultMinut = resultMinut - ((resultMinut // 60)*60)
+
+        
+    if  resultHour >= 12 and resultHour < 24:
+         resultHour =  resultHour - 12
+         if  resultHour == 0:
+             resultHour = 12
+         if  clockSystem == "PM":
+             clockSystem = "AM"
+             numberDay  = numberDay  +1
+         else:
+             clockSystem = "PM"
+##    print(resultHour,resultMinut, clockSystem , numberDay)        
+         
+    new_time = str(resultHour) +" :    "+ str(resultMinut )+"  "+ str(clockSystem) +"   "+ str(numberDay) + "days"
+    print(new_time)
+
+        
+
+
+    return new_time
+
+add_time("3:00 PM", "3:10")
 # Returns: 6:10 PM
-startTime = start.split()[0]
-clockSystem = start.split()[1]
-startHour = startTime.split(":")[0]
-startMinut = startTime.split(":")[1]
-durationHour = duration.split(":")[0]
-durationMinut = duration.split(":")[1]
-print(f"startTime :{startTime}, clockSystem :{clockSystem }, startHour :{startHour},startMinut:{startMinut}")
-print(f"durationHour: {durationHour}, durationMinut :{durationMinut}")
-resultHour = int(startHour) + int(durationHour)
-resultMinut = int(startMinut) + int(durationMinut)
-if  resultMinut >=60:
-  resultHour = resultHour+ (resultMinut // 60)
-  resultMinut = resultMinut - ((resultMinut // 60)*60)
 
-if  resultHour >12:
-     resultHour =  resultHour - 12
-     if  clockSystem == "PM":
-         clockSystem = "AM"
-     else:
-         clockSystem = "PM"
-print(resultHour,resultMinut, clockSystem)        
-     
+add_time("11:30 AM", "2:32", "Monday")
+# Returns: 2:02 PM, Monday
 
+add_time("11:43 AM", "00:20")
+# Returns: 12:03 PM
 
-##resultClockSystem
-##resultDay  
+add_time("10:10 PM", "3:30")
+# Returns: 1:40 AM (next day)
 
-##regexp = "(\d{1,4})([-\+])(\d{1,4}$)"
-##match = re.match(regexp, p)
-    
+add_time("11:43 PM", "24:20", "tueSday")
+# Returns: 12:03 AM, Thursday (2 days later)
 
-
-       #  return new_time
+add_time("6:30 PM", "205:12")
+# Returns: 7:42 AM (9 days later)
